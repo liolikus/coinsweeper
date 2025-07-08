@@ -1,0 +1,133 @@
+.cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  background: linear-gradient(145deg, #e6e6e6, #ffffff);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cell.hidden {
+  background: linear-gradient(145deg, #d4d4d4, #e6e6e6);
+  border: 2px outset #999;
+}
+
+.cell.hidden:hover {
+  background: linear-gradient(145deg, #e6e6e6, #f0f0f0);
+  transform: scale(1.05);
+}
+
+.cell.revealed {
+  background: #f8f8f8;
+  border: 1px solid #999;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.cell.coin {
+  background: linear-gradient(145deg, #ffd700, #ffed4e);
+  color: #b8860b;
+  font-size: 18px;
+  animation: coinGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes coinGlow {
+  from {
+    box-shadow: 0 0 5px #ffd700, inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  to {
+    box-shadow: 0 0 15px #ffd700, 0 0 20px #ffed4e, inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cell.game-over-coin {
+  background: linear-gradient(145deg, #ff6b6b, #ff8e8e);
+  color: #d63031;
+  animation: gameOverPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes gameOverPulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.cell.flagged {
+  color: #e74c3c;
+  font-size: 16px;
+}
+
+/* Neighbor count colors */
+.cell.neighbor-1 {
+  color: #3498db;
+}
+
+.cell.neighbor-2 {
+  color: #27ae60;
+}
+
+.cell.neighbor-3 {
+  color: #e74c3c;
+}
+
+.cell.neighbor-4 {
+  color: #8e44ad;
+}
+
+.cell.neighbor-5 {
+  color: #e67e22;
+}
+
+.cell.neighbor-6 {
+  color: #16a085;
+}
+
+.cell.neighbor-7 {
+  color: #2c3e50;
+}
+
+.cell.neighbor-8 {
+  color: #7f8c8d;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .cell {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+  }
+  
+  .cell.coin {
+    font-size: 16px;
+  }
+  
+  .cell.flagged {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cell {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  
+  .cell.coin {
+    font-size: 14px;
+  }
+  
+  .cell.flagged {
+    font-size: 12px;
+  }
+} 

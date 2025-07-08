@@ -1,0 +1,49 @@
+.game-board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin: 20px auto;
+  max-width: 95vw;
+  overflow: auto;
+}
+
+.board-grid {
+  display: grid;
+  gap: 1px;
+  background: #999;
+  border: 3px solid #666;
+  border-radius: 8px;
+  padding: 2px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .game-board {
+    padding: 10px;
+    margin: 10px auto;
+  }
+  
+  .board-grid {
+    gap: 0.5px;
+    border-width: 2px;
+    padding: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-board {
+    padding: 5px;
+    margin: 5px auto;
+  }
+  
+  .board-grid {
+    gap: 0px;
+    border-width: 1px;
+    padding: 0px;
+  }
+} 

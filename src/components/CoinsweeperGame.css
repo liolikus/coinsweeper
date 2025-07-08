@@ -1,0 +1,42 @@
+.coinsweeper-game {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.web3-error {
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin: 10px auto;
+  max-width: 600px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .coinsweeper-game {
+    padding: 10px;
+  }
+  
+  .web3-error {
+    margin: 5px auto;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .coinsweeper-game {
+    padding: 5px;
+  }
+  
+  .web3-error {
+    margin: 3px auto;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+} 

@@ -1,0 +1,285 @@
+.blockchain-stats {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stats-section,
+.leaderboard-section,
+.rewards-info {
+  margin-bottom: 30px;
+}
+
+.stats-section h3,
+.leaderboard-section h3,
+.rewards-info h3 {
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.stat-card.rewards {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #2c3e50;
+}
+
+.stat-label {
+  display: block;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.claim-btn {
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+
+.claim-btn:hover {
+  background: #34495e;
+  transform: translateY(-1px);
+}
+
+.leaderboard {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 120px 100px;
+  gap: 15px;
+  padding: 15px 20px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.leaderboard-entry {
+  display: grid;
+  grid-template-columns: 80px 1fr 120px 100px;
+  gap: 15px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s ease;
+}
+
+.leaderboard-entry:hover {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.leaderboard-entry.current-player {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.leaderboard-entry:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  font-weight: bold;
+  color: #667eea;
+}
+
+.current-player .rank {
+  color: #2c3e50;
+}
+
+.player {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.score {
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.reward-item {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.reward-item:hover {
+  transform: translateY(-2px);
+}
+
+.reward-icon {
+  font-size: 2rem;
+  width: 50px;
+  text-align: center;
+}
+
+.reward-details h4 {
+  margin: 0 0 5px 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.reward-details p {
+  margin: 0;
+  color: #666;
+  font-weight: bold;
+}
+
+.no-stats,
+.no-leaderboard {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 40px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(102, 126, 234, 0.3);
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .blockchain-stats {
+    padding: 15px;
+    margin: 10px auto;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  .leaderboard-header,
+  .leaderboard-entry {
+    grid-template-columns: 60px 1fr 100px 80px;
+    gap: 10px;
+    padding: 10px 15px;
+  }
+  
+  .rewards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .reward-item {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blockchain-stats {
+    padding: 10px;
+    margin: 5px auto;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .leaderboard-header,
+  .leaderboard-entry {
+    grid-template-columns: 50px 1fr 80px;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+  
+  .leaderboard-header span:last-child,
+  .leaderboard-entry .date {
+    display: none;
+  }
+  
+  .stat-card {
+    padding: 15px;
+  }
+  
+  .reward-item {
+    padding: 12px;
+  }
+  
+  .reward-icon {
+    font-size: 1.5rem;
+    width: 40px;
+  }
+} 
