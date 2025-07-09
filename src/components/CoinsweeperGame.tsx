@@ -161,18 +161,19 @@ const CoinsweeperGame: React.FC = () => {
         </div>
       )}
 
+      <GameBoard
+        gameState={gameState}
+        onCellLeftClick={handleCellLeftClick}
+        onCellRightClick={handleCellRightClick}
+        onNewGame={startNewGame}
+      />
+
       <GameInfo
         gameState={gameState}
         currentDifficulty={currentDifficulty}
         onNewGame={startNewGame}
         onDifficultyChange={handleDifficultyChange}
         difficulties={DIFFICULTIES}
-      />
-
-      <GameBoard
-        gameState={gameState}
-        onCellLeftClick={handleCellLeftClick}
-        onCellRightClick={handleCellRightClick}
       />
 
     </div>

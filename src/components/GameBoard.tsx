@@ -7,17 +7,22 @@ interface GameBoardProps {
   gameState: GameState;
   onCellLeftClick: (row: number, col: number) => void;
   onCellRightClick: (row: number, col: number) => void;
+  onNewGame: () => void;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({
   gameState,
   onCellLeftClick,
   onCellRightClick,
+  onNewGame,
 }) => {
   const { board, gameOver } = gameState;
 
   return (
     <div className="game-board">
+      <button className="new-game-btn" onClick={onNewGame}>
+        🆕 New Game
+      </button>
       <div
         className="board-grid"
         style={{

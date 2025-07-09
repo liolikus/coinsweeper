@@ -17,7 +17,7 @@ function App() {
           </div>
           
           <div className="main-content">
-            <div className="sidebar">
+            <div className="sidebar-left">
               <FHETokenInfo />
             </div>
             
@@ -25,7 +25,7 @@ function App() {
               <CoinsweeperGame />
             </div>
             
-            <div className="sidebar">
+            <div className="sidebar-right">
               <WalletConnect />
               <BlockchainStats />
             </div>

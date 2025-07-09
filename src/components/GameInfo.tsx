@@ -48,7 +48,7 @@ const GameInfo: React.FC<GameInfoProps> = ({
   return (
     <div className="game-info">
       <div className="info-header">
-        <h1>🪙 CoinSweeper 🪙</h1>
+        {/* <h1>🪙 CoinSweeper 🪙</h1> */}
         <p className="game-status">{getGameStatus()}</p>
       </div>
 

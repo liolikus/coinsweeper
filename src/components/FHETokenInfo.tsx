@@ -83,7 +83,18 @@ const FHETokenInfo: React.FC = () => {
   }, [wallet.isConnected, wallet.signer, wallet.address, wallet.chainId]);
 
   if (!wallet.isConnected) {
-    return null;
+    return (
+      <div className="fhe-token-info">
+        <div className="fhe-header">
+          <h3>🔐 Zama FHE Token Info</h3>
+        </div>
+        <div className="fhe-warning">
+          <h3>🔗 Connect Your Wallet</h3>
+          <p>Connect your wallet to view encrypted token information and FHE features.</p>
+          <p>This component will display your encrypted token balances and Zama FHE status once connected.</p>
+        </div>
+      </div>
+    );
   }
 
   if (isLoading) {
