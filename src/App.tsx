@@ -6,6 +6,11 @@ import FHETokenInfo from "./components/FHETokenInfo";
 import BlockchainStats from "./components/BlockchainStats";
 import "./App.css";
 
+// Import relayer proxy test (development only)
+if (process.env.NODE_ENV === 'development') {
+  import('./utils/testRelayerProxy');
+}
+
 function App() {
   return (
     <Web3Provider>

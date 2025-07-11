@@ -25,6 +25,7 @@
     "privacy",
     "encryption"
   ],
+  "proxy": "https://relayer.testnet.zama.cloud",
   "dependencies": {
     "@metamask/detect-provider": "^2.0.0",
     "buffer": "^6.0.3",
@@ -71,6 +72,10 @@
     "eject": "react-scripts eject",
     "compile": "hardhat compile --config hardhat.config.ts",
     "deploy": "hardhat run scripts/deployFHE.js --network sepolia --config hardhat.config.ts",
+    "deploy:fhe": "hardhat run scripts/redeployWithFHE.js --network sepolia --config hardhat.config.ts",
+    "update-config": "node scripts/updateFrontendConfig.js",
+    "test-relayer": "node scripts/testRelayerConnectivity.js",
+    "check-relayer": "node scripts/quickRelayerCheck.js",
     "verify": "hardhat verify --network sepolia --config hardhat.config.ts",
     "clean": "rimraf ./artifacts ./cache ./coverage ./dist",
     "lint": "eslint src --ext .ts,.tsx",

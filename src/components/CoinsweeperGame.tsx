@@ -8,6 +8,9 @@ import {
   checkGameWon,
   countCoinsFound,
   countFlagsPlaced,
+  debugBoardState,
+  testNeighborCounting,
+  testUserScenario,
 } from "../utils/gameLogic";
 import GameBoard from "./GameBoard";
 import GameInfo from "./GameInfo";
@@ -23,6 +26,12 @@ const CoinsweeperGame: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(() =>
     initializeGame(DIFFICULTIES[0]),
   );
+  
+  // Run neighbor counting test on component mount
+  useEffect(() => {
+    testNeighborCounting();
+    testUserScenario();
+  }, []);
   const {
     wallet,
     startGameOnChain,
@@ -49,6 +58,9 @@ const CoinsweeperGame: React.FC = () => {
   const startNewGame = useCallback(async () => {
     const newGameState = initializeGame(currentDifficulty);
     setGameState(newGameState);
+    
+    // Debug: Log initial board state
+    debugBoardState(newGameState.board);
 
     // Record game start on blockchain if wallet is connected
     if (wallet.isConnected) {
@@ -98,6 +110,9 @@ const CoinsweeperGame: React.FC = () => {
       };
 
       setGameState(newGameState);
+
+      // Debug: Log board state for troubleshooting
+      debugBoardState(newBoard);
 
       // Record game result on blockchain if wallet is connected
       if (wallet.isConnected && (isGameOver || isGameWon)) {
@@ -167,6 +182,25 @@ const CoinsweeperGame: React.FC = () => {
         onCellRightClick={handleCellRightClick}
         onNewGame={startNewGame}
       />
+      
+      {/* Debug button - remove in production */}
+      <button 
+        onClick={() => debugBoardState(gameState.board)}
+        style={{ 
+          position: 'fixed', 
+          top: '10px', 
+          right: '10px', 
+          zIndex: 1000,
+          padding: '10px',
+          backgroundColor: '#ff6b6b',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer'
+        }}
+      >
+        Debug Board
+      </button>
 
       <GameInfo
         gameState={gameState}

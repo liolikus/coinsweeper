@@ -70,21 +70,21 @@ ETHERSCAN_API_KEY=your_etherscan_api_key
 npm run deploy
 ```
 
-**Note**: Full FHE features require the Fhenix network. Sepolia deployment is for development and testing purposes.
+**Note**: The application now uses the proper Zama FHE relayer configuration for Sepolia testnet with all required contract addresses and gateway chain integration.
 
 ### 4. Deployed Contract Addresses
 
 The contracts have been deployed to Sepolia testnet:
 
 **EncryptedERC20 Token (CSR)**
-- **Address**: `0x27eB7fC7F852e83c53D897F938443d722ab3b54E`
+- **Address**: `0xabD72c2a7321cF010A484EcEe7464444e9D59aF8`
 - **Name**: CoinSweeper Rewards
 - **Symbol**: CSR
 - **Decimals**: 6
 - **Purpose**: Encrypted ERC20 token for game rewards using Zama FHE
 
 **CoinSweeper Game Contract**
-- **Address**: `0xB45D181c2F51700a489754993D9E2A0F6032504F`
+- **Address**: `0x73816AdE6d7567f1252b4d1A84FD4690472D5cbE`
 - **Purpose**: Main game contract that manages gameplay, rewards, and leaderboard
 - **Features**: 
   - Game statistics tracking
@@ -93,14 +93,14 @@ The contracts have been deployed to Sepolia testnet:
   - Leaderboard management
 
 **Contract Links:**
-- [EncryptedERC20 on Sepolia Etherscan](https://sepolia.etherscan.io/address/0x27eB7fC7F852e83c53D897F938443d722ab3b54E)
-- [CoinSweeper on Sepolia Etherscan](https://sepolia.etherscan.io/address/0xB45D181c2F51700a489754993D9E2A0F6032504F)
+- [EncryptedERC20 on Sepolia Etherscan](https://sepolia.etherscan.io/address/0xabD72c2a7321cF010A484EcEe7464444e9D59aF8)
+- [CoinSweeper on Sepolia Etherscan](https://sepolia.etherscan.io/address/0x73816AdE6d7567f1252b4d1A84FD4690472D5cbE)
 
 **Update Frontend Configuration:**
 After deployment, update the contract addresses in `src/types/web3.ts`:
 ```typescript
 export const CONTRACT_ADDRESSES = {
-  sepolia: '0xB45D181c2F51700a489754993D9E2A0F6032504F'
+  sepolia: '0x73816AdE6d7567f1252b4d1A84FD4690472D5cbE'
 };
 ```
 
@@ -143,7 +143,7 @@ export const CONTRACT_ADDRESSES = {
 
 | Network | Chain ID | Zama FHE Support | Status |
 |---------|----------|------------------|---------|
-| Sepolia Testnet | 11155111 | ⚠️ Limited | Development |
+| Sepolia Testnet | 11155111 | ✅ Full | Production Ready |
 | Localhost | 31337 | ⚠️ Limited | Development |
 
 
@@ -160,7 +160,7 @@ export const CONTRACT_ADDRESSES = {
 - **`BlockchainStats.tsx`**: Blockchain statistics
 
 ### Zama FHE Integration
-- **`zamaFHE.ts`**: Zama relayer SDK integration
+- **`zamaRelayer.ts`**: Zama relayer SDK integration
 - **`Web3Context.tsx`**: React context for Web3 state
 - **`web3Utils.ts`**: Zama FHE and blockchain utilities
 - **`web3.ts`**: TypeScript types and ABIs
@@ -203,11 +203,23 @@ coinsweeper/
 │   ├── contexts/        # React contexts
 │   ├── types/          # TypeScript types
 │   ├── utils/          # Utility functions
-│   │   └── zamaFHE.ts  # Zama FHE integration
+│   │   └── zamaRelayer.ts  # Zama FHE integration
 │   └── ...
 ├── scripts/            # Deployment scripts
 ├── test/              # Contract tests
 └── public/            # Static assets
+```
+
+```
+src/utils/zamaRelayer.ts
+├── SepoliaFHEConfig (proper Zama configuration)
+├── initializeFHE() (main initialization)
+├── decryptUserBalance() (user decryption)
+├── publicDecrypt() (public decryption)
+├── getFHEStatus() (status checking)
+├── testFHEConfiguration() (testing)
+├── getFHEConfiguration() (debugging)
+└── isFHESupported() (network support)
 ```
 
 ## 🔒 Security Features
@@ -247,3 +259,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **🎉 Ready to experience the future of privacy-preserving gaming with Zama FHE!**
+
+
+
+
+
+
+

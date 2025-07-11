@@ -180,12 +180,11 @@ export const getEncryptedTokenInfo = async (
 ): Promise<EncryptedTokenInfo> => {
   const contract = getEncryptedERC20Contract(signer, tokenAddress);
 
-  const [name, symbol, decimals, totalSupply, balance] = await Promise.all([
+  const [name, symbol, decimals, totalSupply] = await Promise.all([
     contract.name(),
     contract.symbol(),
     contract.decimals(),
-    contract.getTotalSupply(),
-    contract.getBalance(playerAddress),
+    contract.totalSupply(),
   ]);
 
   return {
@@ -193,7 +192,7 @@ export const getEncryptedTokenInfo = async (
     symbol,
     decimals: Number(decimals),
     totalSupply: totalSupply.toString(),
-    encryptedBalance: balance.toString(),
+    encryptedBalance: "0", // Will be set by the calling component using getPlayerEncryptedBalance
   };
 };
 
@@ -251,9 +250,9 @@ export const approveEncryptedTokens = async (
   spender: string,
   encryptedAmount: string,
 ) => {
-  const contract = getEncryptedERC20Contract(signer, tokenAddress);
-  const tx = await contract.approve(spender, encryptedAmount);
-  return await tx.wait();
+  // Note: This function requires FHE encrypted types and proper authorization
+  // For now, throw an error to prevent issues
+  throw new Error("Encrypted token approval requires FHE setup. This feature is not yet implemented.");
 };
 
 // Claim rewards from the game contract
@@ -261,9 +260,9 @@ export const claimRewards = async (
   signer: ethers.Signer,
   contractAddress: string,
 ) => {
-  const contract = getCoinSweeperContract(signer, contractAddress);
-  const tx = await contract.claimRewards();
-  return await tx.wait();
+  // Note: This function doesn't exist in the current contract
+  // Rewards are automatically minted when games are won
+  throw new Error("Claim rewards function not implemented. Rewards are automatically distributed when games are won.");
 };
 
 // Get contract configuration for current network

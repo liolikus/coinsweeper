@@ -16,6 +16,20 @@ module.exports = function override(config) {
         global: 'globalThis',
       })
     );
+
+    // Add proxy configuration for Zama relayer to avoid CORS issues
+    if (config.devServer) {
+      config.devServer.proxy = {
+        '/api/relayer': {
+          target: 'https://relayer.testnet.zama.cloud',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/relayer': '',
+          },
+          secure: true,
+        },
+      };
+    }
     
     return config;
   };

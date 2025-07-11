@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "./EncryptedERC20.sol";
+import "./host-contracts/lib/FHE.sol";
+import "./host-contracts/lib/FHEVMConfig.sol";
 
 contract CoinSweeper is Ownable, ReentrancyGuard {
     // Game statistics
@@ -43,6 +45,9 @@ contract CoinSweeper is Ownable, ReentrancyGuard {
     mapping(uint256 => uint256) public difficultyMultipliers;
     
     constructor(address _rewardToken) Ownable(msg.sender) {
+        // Set up the FHEVM configuration for this contract
+        FHE.setCoprocessor(FHEVMConfig.defaultConfig());
+        
         rewardToken = EncryptedERC20(_rewardToken);
         
         // Set difficulty multipliers (1 = Easy, 2 = Medium, 3 = Hard)
@@ -86,14 +91,14 @@ contract CoinSweeper is Ownable, ReentrancyGuard {
         }
         
         // Mint rewards to player (the EncryptedERC20 contract handles encryption internally)
-        rewardToken.mint(uint64(finalReward));
+        rewardToken.mintTo(msg.sender, uint64(finalReward));
         
-        // Update encrypted total rewards (convert to euint64 for storage)
-        euint64 encryptedReward = encrypt(uint64(finalReward));
-        stats.totalRewards = add(stats.totalRewards, encryptedReward);
+        // Update total rewards (convert to encrypted type)
+        euint64 encryptedReward = FHE.asEuint64(uint64(finalReward));
+        stats.totalRewards = FHE.add(stats.totalRewards, encryptedReward);
         
-        // Update leaderboard with encrypted score
-        updateLeaderboard(msg.sender, encryptedReward);
+        // Update leaderboard with score
+        updateLeaderboard(msg.sender, finalReward); // This line is changed
         
         emit GameWon(msg.sender, difficulty, time, finalReward);
         emit EncryptedRewardMinted(msg.sender, finalReward);
@@ -119,7 +124,7 @@ contract CoinSweeper is Ownable, ReentrancyGuard {
             stats.gamesWon,
             stats.totalCoinsFound,
             stats.bestTime,
-            decrypt(stats.totalRewards)
+            uint256(euint64.unwrap(stats.totalRewards)) // This line is changed
         );
     }
     
@@ -133,7 +138,7 @@ contract CoinSweeper is Ownable, ReentrancyGuard {
         LeaderboardEntry memory entry = leaderboard[index];
         return (
             entry.player,
-            decrypt(entry.score),
+            uint256(euint64.unwrap(entry.score)), // This line is changed
             entry.timestamp
         );
     }
@@ -149,12 +154,12 @@ contract CoinSweeper is Ownable, ReentrancyGuard {
     }
     
     // Update leaderboard with encrypted scores
-    function updateLeaderboard(address player, euint64 score) internal {
+    function updateLeaderboard(address player, uint256 score) internal {
         // Simple leaderboard implementation - can be enhanced
         if (leaderboardCount < 100) {
             leaderboard[leaderboardCount] = LeaderboardEntry({
                 player: player,
-                score: score,
+                score: FHE.asEuint64(uint64(score)),
                 timestamp: block.timestamp
             });
             leaderboardCount++;
@@ -190,24 +195,8 @@ contract CoinSweeper is Ownable, ReentrancyGuard {
         payable(owner()).transfer(balance);
     }
     
-    // FHE operations (these would be implemented by the Zama runtime)
-    function add(euint64 a, euint64 b) internal pure returns (euint64) {
-        // This would use FHE.add() in a real implementation
-        // For now, return a placeholder
-        return a;
-    }
-    
-    function decrypt(euint64 encrypted) internal pure returns (uint256) {
-        // This would be implemented by the Zama runtime
-        // For now, return a placeholder
-        return 0;
-    }
-    
-    function encrypt(uint64 plaintext) internal pure returns (euint64) {
-        // This would be implemented by the Zama runtime
-        // For now, return a placeholder
-        return euint64.wrap(0);
-    }
+    // FHE operations would be implemented by the Zama runtime in production
+    // For testing on Sepolia, we use regular uint256 values
     
     // Receive function to accept ETH
     receive() external payable {}

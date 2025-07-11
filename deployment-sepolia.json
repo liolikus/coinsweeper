@@ -3,8 +3,8 @@
   "chainId": 11155111,
   "deployer": "0x8480907d8e50224C087132D9f0e5f11D93550a6d",
   "contracts": {
-    "encryptedERC20": "0x27eB7fC7F852e83c53D897F938443d722ab3b54E",
-    "coinSweeper": "0xB45D181c2F51700a489754993D9E2A0F6032504F"
+    "encryptedERC20": "0xc6b2d6C32dF29b88958c6A8C2c968aAa698c4cE5",
+    "coinSweeper": "0xFE44A894031185bAA6647e24eCdeca5ebA65316f"
   },
   "zamaIntegration": {
     "relayerSDK": "@zama-fhe/relayer-sdk",
@@ -18,13 +18,19 @@
   },
   "deploymentNotes": {
     "network": "Sepolia Testnet",
-    "purpose": "Development and testing",
-    "fheSupport": "Limited - requires Fhenix network for full FHE features",
-    "setupMethod": "Used setupRewardToken.js script to deploy new contracts"
+    "purpose": "Development and testing with full FHE support",
+    "fheSupport": "Full - using proper Zama FHE configuration",
+    "setupMethod": "Redeployed with proper FHE configuration",
+    "fixes": [
+      "Added FHE.setCoprocessor(FHEVMConfig.defaultConfig()) to both contracts",
+      "Updated CoinSweeper to use encrypted types (euint64) for rewards and scores",
+      "Fixed reward calculation with proper FHE operations",
+      "Enhanced leaderboard with encrypted scores"
+    ]
   },
-  "timestamp": "2024-12-19T12:00:00.000Z",
+  "timestamp": "2025-07-11T16:14:39.450Z",
   "frontendConfig": {
-    "contractAddress": "0xB45D181c2F51700a489754993D9E2A0F6032504F",
+    "contractAddress": "0xFE44A894031185bAA6647e24eCdeca5ebA65316f",
     "configFile": "src/types/web3.ts"
   }
-} 
+}

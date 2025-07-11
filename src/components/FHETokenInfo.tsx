@@ -1,85 +1,116 @@
 import React, { useState, useEffect } from "react";
 import { useWeb3 } from "../contexts/Web3Context";
-import {
-  getEncryptedTokenInfo,
-  getContractConfig,
-  getCoinSweeperContract,
-} from "../utils/web3Utils";
-import { FHEUtils } from "../utils/zamaFHE";
-import { EncryptedTokenInfo } from "../types/web3";
+import { getEncryptedTokenInfo } from "../utils/web3Utils";
+import { getContractConfig } from "../utils/web3Utils";
+import { getCoinSweeperContract } from "../utils/web3Utils";
+import { decryptUserBalance, getFHEStatus } from "../utils/zamaRelayer";
 import "./FHETokenInfo.css";
 
 const FHETokenInfo: React.FC = () => {
   const { wallet, gameStats } = useWeb3();
-  const [tokenInfo, setTokenInfo] = useState<EncryptedTokenInfo | null>(null);
+  const [tokenInfo, setTokenInfo] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [decryptedBalance, setDecryptedBalance] = useState<number | null>(null);
+  const [isDecrypting, setIsDecrypting] = useState(false);
   const [fheStatus, setFheStatus] = useState({
-    isSupported: false,
     isAvailable: false,
     error: null as string | null,
   });
 
-  useEffect(() => {
-    const checkFHEStatus = () => {
-      const isAvailable = FHEUtils.isAvailable();
-      const status = FHEUtils.getStatus();
-
-      setFheStatus({
-        isSupported: true, // Zama FHE is supported on all networks
-        isAvailable,
-        error: null,
+  // Check FHE status
+  const checkFHEStatus = () => {
+    if (wallet.chainId) {
+      getFHEStatus(wallet.chainId).then((status) => {
+        setFheStatus({
+          isAvailable: status.isAvailable,
+          error: status.error || null,
+        });
       });
-    };
+    }
+  };
 
-    checkFHEStatus();
-  }, []);
+  // Load token information
+  const loadTokenInfo = async () => {
+    if (!wallet.isConnected || !wallet.signer || !wallet.address) {
+      setTokenInfo(null);
+      return;
+    }
 
+    try {
+      setIsLoading(true);
+      // Get token address from game contract
+      const contractConfig = getContractConfig(wallet.chainId!);
+      const gameContract = getCoinSweeperContract(
+        wallet.signer,
+        contractConfig.address,
+      );
+      const tokenAddress = await gameContract.rewardToken();
+
+      // Check if token address is valid (not zero address)
+      if (
+        !tokenAddress ||
+        tokenAddress === "0x0000000000000000000000000000000000000000"
+      ) {
+        throw new Error(
+          "No reward token configured. Please contact the contract owner to set up the reward token.",
+        );
+      }
+
+      const info = await getEncryptedTokenInfo(
+        wallet.signer,
+        tokenAddress,
+        wallet.address,
+      );
+
+      // Get encrypted balance from the game contract
+      const encryptedBalance = await gameContract.getPlayerEncryptedBalance(wallet.address);
+      
+      // Update the token info with the actual encrypted balance
+      const updatedInfo = {
+        ...info,
+        encryptedBalance: encryptedBalance.toString(),
+      };
+
+      setTokenInfo(updatedInfo);
+    } catch (error: any) {
+      console.error("Error loading token info:", error);
+      setFheStatus((prev) => ({
+        ...prev,
+        error: error.message || "Failed to load token information",
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Decrypt balance using Zama relayer
+  const handleDecryptBalance = async () => {
+    if (!wallet.isConnected || !wallet.signer || !wallet.address) {
+      return;
+    }
+
+    try {
+      setIsDecrypting(true);
+      const balance = await decryptUserBalance(
+        wallet.signer,
+        wallet.address
+      );
+      setDecryptedBalance(balance);
+    } catch (error: any) {
+      console.error("Error decrypting balance:", error);
+      setFheStatus((prev) => ({
+        ...prev,
+        error: error.message || "Failed to decrypt balance",
+      }));
+    } finally {
+      setIsDecrypting(false);
+    }
+  };
+
+  // Load token info and check FHE status when wallet changes
   useEffect(() => {
-    const loadTokenInfo = async () => {
-      if (!wallet.isConnected || !wallet.signer || !wallet.address) {
-        setTokenInfo(null);
-        return;
-      }
-
-      try {
-        setIsLoading(true);
-        // Get token address from game contract
-        const contractConfig = getContractConfig(wallet.chainId!);
-        const gameContract = getCoinSweeperContract(
-          wallet.signer,
-          contractConfig.address,
-        );
-        const tokenAddress = await gameContract.rewardToken();
-
-        // Check if token address is valid (not zero address)
-        if (
-          !tokenAddress ||
-          tokenAddress === "0x0000000000000000000000000000000000000000"
-        ) {
-          throw new Error(
-            "No reward token configured. Please contact the contract owner to set up the reward token.",
-          );
-        }
-
-        const info = await getEncryptedTokenInfo(
-          wallet.signer,
-          tokenAddress,
-          wallet.address,
-        );
-
-        setTokenInfo(info);
-      } catch (error: any) {
-        console.error("Error loading token info:", error);
-        setFheStatus((prev) => ({
-          ...prev,
-          error: error.message || "Failed to load token information",
-        }));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     loadTokenInfo();
+    checkFHEStatus();
   }, [wallet.isConnected, wallet.signer, wallet.address, wallet.chainId]);
 
   if (!wallet.isConnected) {
@@ -124,6 +155,18 @@ const FHETokenInfo: React.FC = () => {
       {fheStatus.error && (
         <div className="fhe-error">
           <span>⚠️ {fheStatus.error}</span>
+          {fheStatus.error.includes("relayer") && (
+            <div className="relayer-error-info">
+              <p>
+                <strong>Note:</strong> There was an issue connecting to the Zama FHE relayer. 
+                This might be a temporary network issue or configuration problem.
+              </p>
+              <p>
+                Your encrypted balances and rewards are still working correctly. 
+                Try refreshing the page or check your network connection.
+              </p>
+            </div>
+          )}
         </div>
       )}
 
@@ -144,11 +187,27 @@ const FHETokenInfo: React.FC = () => {
 
           <div className="token-balances">
             <div className="balance-item">
-              <span className="label">🔒 Your Encrypted Balance:</span>
-              <span className="value encrypted">
-                {parseInt(tokenInfo.encryptedBalance).toLocaleString()}{" "}
-                {tokenInfo.symbol}
-              </span>
+              <span className="label">🔒 Your Token Balance:</span>
+              <div className="balance-value-container">
+                {decryptedBalance !== null ? (
+                  <span className="value decrypted">
+                    {decryptedBalance.toLocaleString()} {tokenInfo.symbol}
+                  </span>
+                ) : (
+                  <span className="value encrypted">
+                    🔐 Encrypted
+                  </span>
+                )}
+                {decryptedBalance === null && fheStatus.isAvailable && (
+                  <button 
+                    onClick={handleDecryptBalance} 
+                    disabled={isDecrypting}
+                    className="decrypt-btn"
+                  >
+                    {isDecrypting ? "Decrypting..." : "🔓 Decrypt Balance"}
+                  </button>
+                )}
+              </div>
             </div>
 
             {gameStats && (
@@ -190,6 +249,18 @@ const FHETokenInfo: React.FC = () => {
               Zama's relayer network, providing enhanced privacy and security
               across all supported networks.
             </p>
+            <div className="relayer-info">
+              <h5>🔓 Decrypting Your Balance</h5>
+              <p>
+                Your token balance is encrypted for privacy. Click the "Decrypt Balance" 
+                button to use the Zama relayer to decrypt and view your actual balance.
+                This process uses your wallet signature to securely decrypt only your data.
+              </p>
+              <p>
+                <strong>Your rewards are working!</strong> The "Total Rewards Earned" 
+                shows your decrypted rewards from winning games.
+              </p>
+            </div>
           </div>
 
           <div className="zama-info">

@@ -83,19 +83,16 @@ export const ENCRYPTED_ERC20_ABI = [
   "function name() external view returns (string)",
   "function symbol() external view returns (string)",
   "function decimals() external view returns (uint8)",
-  "function getTotalSupply() external view returns (uint32)",
-  "function getBalance(address account) external view returns (uint32)",
-  "function getAllowance(address owner, address spender) external view returns (uint32)",
-  "function transfer(address to, bytes calldata encryptedAmount) external",
-  "function transferFrom(address from, address to, bytes calldata encryptedAmount) external",
-  "function approve(address spender, bytes calldata encryptedAmount) external",
-  "function mint(address to, bytes calldata encryptedAmount) external",
-  "function burn(address from, bytes calldata encryptedAmount) external",
-  "function encryptAmount(uint32 amount) external pure returns (bytes)",
-  "event Transfer(address indexed from, address indexed to, uint256 amount)",
-  "event Approval(address indexed owner, address indexed spender, uint256 amount)",
-  "event Mint(address indexed to, uint256 amount)",
-  "event Burn(address indexed from, uint256 amount)",
+  "function totalSupply() external view returns (uint64)",
+  "function balanceOf(address wallet) external view returns (uint256)",
+  "function allowance(address owner, address spender) external view returns (uint256)",
+  "function transfer(address to, uint256 amount) external returns (bool)",
+  "function transferFrom(address from, address to, uint256 amount) external returns (bool)",
+  "function approve(address spender, uint256 amount) external returns (bool)",
+  "function mint(uint64 mintedAmount) external",
+  "event Transfer(address indexed from, address indexed to)",
+  "event Approval(address indexed owner, address indexed spender)",
+  "event Mint(address indexed to, uint64 amount)",
 ];
 
 // Network configurations - Sepolia only
@@ -110,7 +107,7 @@ export const NETWORKS = {
 
 // Contract addresses - Sepolia only
 export const CONTRACT_ADDRESSES = {
-  sepolia: "0xB45D181c2F51700a489754993D9E2A0F6032504F", // CoinSweeper contract on Sepolia
+  sepolia: "0xFE44A894031185bAA6647e24eCdeca5ebA65316f", // CoinSweeper contract on Sepolia
 };
 
 // FHE Configuration

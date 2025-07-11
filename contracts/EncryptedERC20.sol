@@ -2,12 +2,12 @@
 pragma solidity ^0.8.24;
 
 import "./host-contracts/lib/FHE.sol";
-import "@openzeppelin/contracts/access/Ownable2Step.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./host-contracts/lib/FHEVMConfig.sol";
 
 /// @notice This contract implements an encrypted ERC20-like token with confidential balances using Zama's FHE (Fully Homomorphic Encryption) library.
 /// @dev It supports typical ERC20 functionality such as transferring tokens, minting, and setting allowances, but uses encrypted data types.
-contract EncryptedERC20 is Ownable2Step {
+contract EncryptedERC20 is Ownable {
     /// @notice Emitted when tokens are transferred
     event Transfer(address indexed from, address indexed to);
     /// @notice Emitted when a spender is approved to spend tokens on behalf of an owner
@@ -63,6 +63,18 @@ contract EncryptedERC20 is Ownable2Step {
         FHE.allow(balances[owner()], owner());
         _totalSupply = _totalSupply + mintedAmount;
         emit Mint(owner(), mintedAmount);
+    }
+
+    /// @notice Mints new tokens and assigns them to a specific address, increasing the total supply.
+    /// @dev Only the contract owner can call this function.
+    /// @param to The address to mint tokens to
+    /// @param mintedAmount The amount of tokens to mint
+    function mintTo(address to, uint64 mintedAmount) public virtual onlyOwner {
+        balances[to] = FHE.add(balances[to], mintedAmount); // overflow impossible because of next line
+        FHE.allowThis(balances[to]);
+        FHE.allow(balances[to], to);
+        _totalSupply = _totalSupply + mintedAmount;
+        emit Mint(to, mintedAmount);
     }
 
     /// @notice Transfers an encrypted amount from the message sender address to the `to` address.
