@@ -1,5 +1,5 @@
 .wallet-connect {
-  background: white;
+  background: #f9ec34;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
@@ -69,10 +69,10 @@
 
 .wallet-info {
   text-align: left;
-  background: #f8f9fa;
+  background: #f9ec34;
   border-radius: 6px;
   padding: 15px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #e1e5e9;
 }
 
 .wallet-info p {
@@ -112,11 +112,10 @@
 }
 
 .wallet-details {
-  background: #f8f9fa;
+  background: #f9ec34;
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 15px;
-  border: 1px solid #e9ecef;
 }
 
 .detail-item {
@@ -136,10 +135,10 @@
 
 .detail-item .value {
   font-family: 'Courier New', monospace;
-  background: #e9ecef;
+  background: #f9ec34;
   padding: 2px 6px;
   border-radius: 4px;
-  color: #495057;
+  color: #333333;
 }
 
 .network-switcher h4 {

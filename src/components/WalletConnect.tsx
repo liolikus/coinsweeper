@@ -1,6 +1,6 @@
 import React from "react";
 import { useWeb3 } from "../contexts/Web3Context";
-import { formatAddress, switchNetwork } from "../utils/web3Utils";
+import { formatAddress } from "../utils/web3Utils";
 import { NETWORKS } from "../types/web3";
 import "./WalletConnect.css";
 
@@ -18,14 +18,6 @@ const WalletConnect: React.FC = () => {
 
   const handleDisconnect = () => {
     disconnect();
-  };
-
-  const handleNetworkSwitch = async (chainId: number) => {
-    try {
-      await switchNetwork(chainId);
-    } catch (error: any) {
-      console.error("Network switch failed:", error);
-    }
   };
 
   const getNetworkName = (chainId: number | null) => {
@@ -94,22 +86,6 @@ const WalletConnect: React.FC = () => {
             <div className="detail-item">
               <span className="label">Network:</span>
               <span className="value">{getNetworkName(wallet.chainId)}</span>
-            </div>
-          </div>
-
-          <div className="network-switcher">
-            <h4>Switch Network:</h4>
-            <div className="network-buttons">
-              {Object.entries(NETWORKS).map(([key, network]) => (
-                <button
-                  key={`${key}-${network.chainId}`}
-                  onClick={() => handleNetworkSwitch(network.chainId)}
-                  className={`network-btn ${wallet.chainId === network.chainId ? "active" : ""}`}
-                  disabled={wallet.chainId === network.chainId}
-                >
-                  {network.name}
-                </button>
-              ))}
             </div>
           </div>
         </div>

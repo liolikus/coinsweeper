@@ -20,9 +20,15 @@ const FHETokenInfo: React.FC = () => {
   });
 
   useEffect(() => {
-    const checkFHEStatus = () => {
+    const checkFHEStatus = async () => {
+      // Wait a bit for initialization to complete
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const isAvailable = FHEUtils.isAvailable();
       const status = FHEUtils.getStatus();
+
+      console.log("FHE Status:", status);
+      console.log("FHE Available:", isAvailable);
 
       setFheStatus({
         isSupported: true, // Zama FHE is supported on all networks
@@ -65,6 +71,7 @@ const FHETokenInfo: React.FC = () => {
           wallet.signer,
           tokenAddress,
           wallet.address,
+          wallet.chainId!,
         );
 
         setTokenInfo(info);
@@ -90,8 +97,14 @@ const FHETokenInfo: React.FC = () => {
         </div>
         <div className="fhe-warning">
           <h3>🔗 Connect Your Wallet</h3>
-          <p>Connect your wallet to view encrypted token information and FHE features.</p>
-          <p>This component will display your encrypted token balances and Zama FHE status once connected.</p>
+          <p>
+            Connect your wallet to view encrypted token information and FHE
+            features.
+          </p>
+          <p>
+            This component will display your encrypted token balances and Zama
+            FHE status once connected.
+          </p>
         </div>
       </div>
     );
@@ -113,10 +126,10 @@ const FHETokenInfo: React.FC = () => {
       <div className="fhe-header">
         <h3>🔐 Zama FHE Token Info</h3>
         <div
-          className={`fhe-status ${fheStatus.isAvailable ? "available" : "unavailable"}`}
+          className={`fhe-status ${tokenInfo ? "available" : "unavailable"}`}
         >
-          {fheStatus.isAvailable
-            ? "✅ Zama FHE Available"
+          {tokenInfo
+            ? "✅ Zama FHE Active (Contract Level)"
             : "❌ Zama FHE Unavailable"}
         </div>
       </div>
@@ -181,24 +194,14 @@ const FHETokenInfo: React.FC = () => {
             </ul>
           </div>
 
-          <div className="fhe-info">
-            <h4>ℹ️ About Zama FHE</h4>
-            <p>
-              Zama's Fully Homomorphic Encryption (FHE) allows computations on
-              encrypted data without revealing the underlying values. Your token
-              balances and game scores are encrypted and processed through
-              Zama's relayer network, providing enhanced privacy and security
-              across all supported networks.
-            </p>
-          </div>
-
           <div className="zama-info">
-            <h4>🚀 Zama Protocol</h4>
+            <h4>🚀 Zama Protocol on Sepolia</h4>
             <p>
               This integration uses the official Zama relayer SDK to handle
-              encrypted operations. The Zama protocol provides a decentralized
-              network of relayers that process FHE operations, ensuring your
-              data remains private while enabling complex computations.
+              encrypted operations on Sepolia testnet. The Zama protocol
+              provides a decentralized network of relayers that process FHE
+              operations, ensuring your data remains private while enabling
+              complex computations for development and testing purposes.
             </p>
             <div className="zama-links">
               <a

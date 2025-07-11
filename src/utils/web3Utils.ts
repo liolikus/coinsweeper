@@ -177,23 +177,30 @@ export const getEncryptedTokenInfo = async (
   signer: ethers.Signer,
   tokenAddress: string,
   playerAddress: string,
+  chainId: number,
 ): Promise<EncryptedTokenInfo> => {
   const contract = getEncryptedERC20Contract(signer, tokenAddress);
 
-  const [name, symbol, decimals, totalSupply, balance] = await Promise.all([
+  // Get basic token info from the EncryptedERC20 contract
+  const [name, symbol, decimals, totalSupply] = await Promise.all([
     contract.name(),
     contract.symbol(),
     contract.decimals(),
-    contract.getTotalSupply(),
-    contract.getBalance(playerAddress),
+    contract.totalSupply(),
   ]);
+
+  // Get player's encrypted balance from the CoinSweeper contract
+  const contractConfig = getContractConfig(chainId);
+  const gameContract = getCoinSweeperContract(signer, contractConfig.address);
+  const encryptedBalance =
+    await gameContract.getPlayerEncryptedBalance(playerAddress);
 
   return {
     name,
     symbol,
     decimals: Number(decimals),
     totalSupply: totalSupply.toString(),
-    encryptedBalance: balance.toString(),
+    encryptedBalance: encryptedBalance.toString(),
   };
 };
 

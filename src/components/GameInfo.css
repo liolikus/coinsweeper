@@ -1,5 +1,5 @@
 .game-info {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #f9ec34;
   border-radius: 15px;
   padding: 20px;
   margin: 20px auto;
@@ -28,7 +28,7 @@
   margin: 0;
   padding: 10px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.8);
+  background: #f9ec34;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -40,7 +40,7 @@
 }
 
 .stat-item {
-  background: rgba(255, 255, 255, 0.9);
+  background: #f9ec34;
   padding: 15px;
   border-radius: 10px;
   text-align: center;
@@ -90,7 +90,7 @@
   padding: 10px;
   border: 2px solid #ddd;
   border-radius: 8px;
-  background: white;
+  background: #f9ec34;
   font-size: 14px;
   cursor: pointer;
   transition: border-color 0.2s ease;
@@ -103,7 +103,7 @@
 
 .new-game-btn {
   padding: 12px 24px;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, #e35410, #764ba2);
   color: white;
   border: none;
   border-radius: 8px;
@@ -124,7 +124,7 @@
 }
 
 .game-instructions {
-  background: rgba(255, 255, 255, 0.8);
+  background: #f9ec34;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

@@ -1,7 +1,7 @@
 .cell {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ccc;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #333;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,25 +9,34 @@
   font-size: 14px;
   cursor: pointer;
   user-select: none;
-  transition: all 0.2s ease;
-  background: linear-gradient(145deg, #e6e6e6, #ffffff);
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
 }
 
 .cell.hidden {
-  background: linear-gradient(145deg, #d4d4d4, #e6e6e6);
-  border: 2px outset #999;
+  background: linear-gradient(145deg, #f9ec34, #f9e905);
+  border: 2px solid #333;
+  background-image: url('../coin.png');
+  background-size: 80% 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: coinShimmer 2s ease-in-out infinite;
 }
 
 .cell.hidden:hover {
-  background: linear-gradient(145deg, #e6e6e6, #f0f0f0);
-  transform: scale(1.05);
+  background: linear-gradient(145deg, #f9e905, #f9ec34);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 16px rgba(249, 233, 5, 0.4);
+  animation: coinHover 0.3s ease-in-out;
 }
 
 .cell.revealed {
-  background: #f8f8f8;
-  border: 1px solid #999;
-  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #7d6d26;
+  animation: revealCell 0.4s ease-out;
 }
 
 .cell.coin {
@@ -61,9 +70,81 @@
   }
 }
 
+@keyframes coinShimmer {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(249, 233, 5, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(249, 233, 5, 0.6), 0 0 25px rgba(249, 233, 5, 0.4);
+  }
+}
+
+@keyframes coinHover {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(10deg);
+  }
+  100% {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+@keyframes revealCell {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .cell.flagged {
-  color: #e74c3c;
+  background: linear-gradient(145deg, #f9ec34, #f9e905);
+  border: 2px solid #333;
+  background-image: url('../cross.png');
+  background-size: 70% 70%;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: crossShimmer 1.5s ease-in-out infinite;
+  color: transparent;
   font-size: 16px;
+}
+
+.cell.flagged:hover {
+  background: linear-gradient(145deg, #f9e905, #f9ec34);
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 8px 16px rgba(249, 233, 5, 0.4);
+  animation: crossHover 0.3s ease-in-out;
+}
+
+@keyframes crossShimmer {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(249, 233, 5, 0.3);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(249, 233, 5, 0.6), 0 0 25px rgba(249, 233, 5, 0.4);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes crossHover {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(-10deg);
+  }
+  100% {
+    transform: scale(1.1) rotate(-5deg);
+  }
 }
 
 /* Neighbor count colors */

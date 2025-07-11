@@ -15,16 +15,16 @@ function App() {
             <h1>🔐 CoinSweeper</h1>
             <p>Privacy-Preserving CoinSweeper Game with Zama FHE</p>
           </div>
-          
+
           <div className="main-content">
             <div className="sidebar-left">
               <FHETokenInfo />
             </div>
-            
+
             <div className="game-area">
               <CoinsweeperGame />
             </div>
-            
+
             <div className="sidebar-right">
               <WalletConnect />
               <BlockchainStats />

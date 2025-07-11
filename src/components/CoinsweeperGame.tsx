@@ -154,7 +154,6 @@ const CoinsweeperGame: React.FC = () => {
 
   return (
     <div className="coinsweeper-game">
-
       {web3Error && (
         <div className="web3-error">
           <span>⚠️ {web3Error}</span>
@@ -171,11 +170,9 @@ const CoinsweeperGame: React.FC = () => {
       <GameInfo
         gameState={gameState}
         currentDifficulty={currentDifficulty}
-        onNewGame={startNewGame}
         onDifficultyChange={handleDifficultyChange}
         difficulties={DIFFICULTIES}
       />
-
     </div>
   );
 };

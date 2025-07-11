@@ -1,5 +1,5 @@
 .blockchain-stats {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #f9ec34;
   border-radius: 15px;
   padding: 20px;
   margin: 20px auto;
@@ -29,7 +29,7 @@
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: #f9ec34;
   padding: 20px;
   border-radius: 12px;
   text-align: center;
@@ -81,7 +81,7 @@
 }
 
 .leaderboard {
-  background: rgba(255, 255, 255, 0.9);
+  background: #f9ec34;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -152,7 +152,7 @@
 }
 
 .reward-item {
-  background: rgba(255, 255, 255, 0.9);
+  background: #f9ec34;
   padding: 20px;
   border-radius: 12px;
   display: flex;
@@ -190,7 +190,7 @@
   color: #666;
   font-style: italic;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.7);
+  background: #f9ec34;
   border-radius: 8px;
 }
 

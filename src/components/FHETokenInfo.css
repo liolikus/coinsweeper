@@ -1,5 +1,5 @@
 .fhe-token-info {
-  background: white;
+  background: #f9ec34;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
@@ -32,9 +32,9 @@
 }
 
 .fhe-status.available {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: #f9ec34;
+  color: #333333;
+  border: 1px solid #e1e5e9;
 }
 
 .fhe-status.unavailable {
@@ -111,10 +111,10 @@
 }
 
 .token-details {
-  background: #f8f9fa;
+  background: #f9ec34;
   border-radius: 8px;
   padding: 20px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #e1e5e9;
 }
 
 .token-basic {
@@ -141,13 +141,13 @@
 .value {
   font-size: 1.1rem;
   font-weight: bold;
-  color: white;
+  color: #333333;
 }
 
 .value.encrypted {
-  color: #28a745;
+  color: #333333;
   font-weight: bold;
-  background: #d4edda;
+  background: #f9ec34;
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -228,10 +228,10 @@
 }
 
 .zama-info {
-  background: #fff3cd;
+  background: #f9ec34;
   border-radius: 8px;
   padding: 15px;
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  border: 1px solid #e1e5e9;
   margin-bottom: 20px;
 }
 
@@ -260,26 +260,26 @@
   align-items: center;
   gap: 5px;
   padding: 8px 12px;
-  background: #f8f9fa;
-  color: #856404;
+  background: #f9ec34;
+  color: #333333;
   text-decoration: none;
   border-radius: 6px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #e1e5e9;
   font-size: 0.9rem;
   transition: background-color 0.3s ease;
 }
 
 .zama-links a:hover {
-  background: #e9ecef;
-  color: #533f03;
+  background: #e6d82a;
+  color: #333333;
 }
 
 .no-token-info {
   text-align: center;
   padding: 30px 20px;
-  background: #f8f9fa;
+  background: #f9ec34;
   border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #e1e5e9;
 }
 
 .no-token-info p {

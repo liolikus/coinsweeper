@@ -27,7 +27,7 @@ const CellComponent: React.FC<CellProps> = ({
 
   const getCellContent = () => {
     if (cell.isFlagged) {
-      return "🚩";
+      return "";
     }
 
     if (!cell.isRevealed) {

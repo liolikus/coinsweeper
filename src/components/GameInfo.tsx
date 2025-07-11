@@ -5,7 +5,6 @@ import "./GameInfo.css";
 interface GameInfoProps {
   gameState: GameState;
   currentDifficulty: Difficulty;
-  onNewGame: () => void;
   onDifficultyChange: (difficulty: Difficulty) => void;
   difficulties: Difficulty[];
 }
@@ -13,7 +12,6 @@ interface GameInfoProps {
 const GameInfo: React.FC<GameInfoProps> = ({
   gameState,
   currentDifficulty,
-  onNewGame,
   onDifficultyChange,
   difficulties,
 }) => {
@@ -61,7 +59,7 @@ const GameInfo: React.FC<GameInfoProps> = ({
         </div>
 
         <div className="stat-item">
-          <span className="stat-label">🚩 Flags:</span>
+          <span className="stat-label">❌ Loooted:</span>
           <span className="stat-value">{flagsPlaced}</span>
         </div>
 
@@ -92,10 +90,6 @@ const GameInfo: React.FC<GameInfoProps> = ({
             ))}
           </select>
         </div>
-
-        <button className="new-game-btn" onClick={onNewGame}>
-          🆕 New Game
-        </button>
       </div>
 
       <div className="game-instructions">
