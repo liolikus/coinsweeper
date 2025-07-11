@@ -7,7 +7,7 @@
     "npm": ">=7.0.0"
   },
   "license": "MIT",
-  "homepage": "https://github.com/liolikus/coinsweeper",
+  "homepage": ".",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/liolikus/coinsweeper.git"
